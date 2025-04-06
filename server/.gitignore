@@ -1,0 +1,53 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+*.pyc
+_pycache_/
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+
+# Visual Studio
+.vs/
+.vscode/
+.idea/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Linux
+*~
+
+# Logs
+*.log
+
+# Build directories
+dist/
+build/
+
+# IDEs and editors
+*.sublime-workspace
+*.sublime-project
+
+# Environment variables
+.env
+
+# Docker
+.docker/
+
+# Archives
+*.tar.gz
+*.zip
+*.tar.bz2
+*.tar.xz
