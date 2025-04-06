@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext"
 import LanguageSelector from "../components/LanguageSelector";
-import axios from "axios";
 
 const SignUpPage = () => {
 
@@ -9,12 +9,12 @@ const SignUpPage = () => {
     name: "",
     phone: "",
     email:"",
-    location: "",
     password: "",
     confirmPassword: "",
     language: "en",
   })
   const [error, setError] = useState("")
+  const { signup } = useAuth()
   const navigate = useNavigate()
 
   
@@ -24,51 +24,29 @@ const SignUpPage = () => {
     setFormData({ ...formData, [name]: value })
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setError("")
 
-    if (!formData.name || !formData.email || !formData.phone || !formData.location || !formData.password || !formData.confirmPassword) {
-        setError("Please fill in all required fields");
-        return;
+     // Basic validation
+     if (!formData.name || !formData.phone || !formData.password || !formData.confirmPassword || !formData.email || !formData.location) {
+      setError("Please fill in all required fields")
+      return
     }
 
     if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
-        return;
+      setError("Passwords do not match")
+      return
     }
 
-    const requestData = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        location: formData.location,
-        password: formData.password,
-    };
-
-    console.log("Sending Request:", requestData); // Log outgoing request
-
+    // Mock signup - in a real app, this would call an API
     try {
-        const response = await fetch("http://localhost:5000/api/auth/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(requestData),
-        });
-
-        const data = await response.json();
-        console.log("Response Data:", data); // Log server response
-
-        if (!response.ok) {
-            throw new Error(data.message || "Signup failed");
-        }
-
-        navigate("/home");
+      signup(formData)
+      navigate("/home")
     } catch (err) {
-        setError(err.message);
+      setError("Failed to create an account. Please try again.")
     }
-};
+  }
 
 
   const defaultTexts = {

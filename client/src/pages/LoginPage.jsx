@@ -1,55 +1,49 @@
-"use client";
+"use client"
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"
 import LanguageSelector from "../components/LanguageSelector";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     phone: "",
     password: "",
-  });
-  const [error, setError] = useState("");
-  const { login } = useAuth();
-  const navigate = useNavigate();
+  })
+  const [error, setError] = useState("")
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-  
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setError("")
+
+    // Basic validation
     if (!formData.phone || !formData.password) {
-      setError("Please fill in all fields");
-      return;
+      setError("Please fill in all fields")
+      return
     }
-  
+
+    // Mock login - in a real app, this would call an API
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
+      // For demo purposes, we'll just set a mock user
+      const userData = {
+        name: "Demo Farmer",
+        phone: formData.phone,
+        language: "en",
       }
-  
-      login(data.user);
-      navigate("/home");
+
+      login(userData)
+      navigate("/home")
     } catch (err) {
-      setError(err.message);
+      setError("Invalid credentials. Please try again.")
     }
-  };
-  
+  }
 
   const defaultTexts = {
     title: "Welcome Back",
@@ -77,8 +71,6 @@ const LoginPage = () => {
       <main className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
           <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">{translatedText.title}</h1>
-
-          {error && <p className="text-red-600 text-center mb-4">{error}</p>}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
